@@ -65,6 +65,11 @@
       src: backend.service
       dest: /etc/systemd/system/backend.service
 
+  - name: Install mysql client
+    ansible.builtin.package:
+      name: mysql
+      state: present
+
   - name: import mysql data
     community.mysql.mysql_db:
       login_user: root
