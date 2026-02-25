@@ -6,10 +6,18 @@
     mysql_root_password: ExpenseApp@1
     login_host: mysql.inspiredevops.online
   tasks:
+  # - name: install PyMySQL
+  #   ansible.builtin.pip:
+  #     name: PyMySQL
+  - name: install pip 
+    package:
+        name: python3-pip
+        state: present
+
   - name: install PyMySQL
-    ansible.builtin.pip:
+    pip:
       name: PyMySQL
-  
+      
   - name: disable default nodjs
     ansible.builtin.command: dnf module disable nodejs -y
 
