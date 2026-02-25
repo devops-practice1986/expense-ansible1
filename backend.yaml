@@ -15,7 +15,7 @@
       state: present
 
   - name: useradd
-    ansible.built.user:
+    ansible.builtin.user:
       name: expense
 
   # - name: Create a directory if it does not exist
