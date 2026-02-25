@@ -5,6 +5,10 @@
     mysql_root_password: ExpenseApp@1
     login_host: mysql.inspiredevops.online
   tasks:
+  - name: install PyMySQL
+    ansible.builtin.pip:
+      name: PyMySQL
+
   - name: install MySql server
     ansible.builtin.package:
       name: mysql-server
