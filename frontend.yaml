@@ -16,5 +16,25 @@
       state: started
       enabled: yes
   
+  - name: remove nginx default content 
+    ansible.builtin.command: rm -rf /usr/share/nginx/html/*
 
-  
+  - name: Download frontend content
+    ansible.builtin.get_url:
+      url: https://expense-builds.s3.us-east-1.amazonaws.com/expense-frontend-v2.zip
+      dest: /tmp/frontend.zip
+
+  - name: Extract the code
+    ansible.builtin.unarchive:
+      src: /tmp/frontend.zip
+      dest: /usr/share/nginx/html 
+
+  - name: Copy frontend code
+    ansible.builtin.copy:
+      src: expense.conf
+      dest: /etc/nginx/default.d/expense.conf
+ 
+  - name: restated nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
