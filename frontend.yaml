@@ -13,10 +13,11 @@
   - name: start nginx server
     ansible.builtin.service:
       name: nginx
-      state: start
+      state: started
   - name: start nginx server
     ansible.builtin.service:
       name: nginx
       state: enabled
-      
+       
+
   
