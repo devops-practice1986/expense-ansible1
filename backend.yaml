@@ -10,19 +10,20 @@
     ansible.builtin.pip:
       name: PyMySQL
 
-  # - name: ansible to install boto3 and botocore
-  #   ansible.builtin.pip:
-  #     name:
-  #     - boto3
-  #     - botocore
-  #     executable: pip3.13
-  #     when: pip_check.rc != 0
   - name: ansible to install boto3 and botocore
     ansible.builtin.pip:
       name:
       - boto3
       - botocore
     when: ansible_os_family == "RedHat"
+
+  # - name: ansible to install boto3 and botocore
+  #   ansible.builtin.pip:
+  #     name:
+  #     - boto3
+  #     - botocore
+  #     executable: pip3.13
+  #   when: pip_check.rc != 0
 
   - name: disable default nodjs
     ansible.builtin.command: dnf module disable nodejs -y
@@ -77,4 +78,4 @@
       login_host: "{{ login_host }}"
       target: /app/schema/backend.sql
       name: all
-      state: dump
+      state: import
