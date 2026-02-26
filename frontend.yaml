@@ -1,0 +1,22 @@
+- name: frontend configuration
+  hosts: frontend
+  connection: local
+  become: yes
+  vars:
+
+  tasks:
+  - name: install nginx 
+    ansible.builtin.package:
+      name: nginx
+      state: present
+  
+  - name: start nginx server
+    ansible.builtin.service:
+      name: nginx
+      state: start
+  - name: start nginx server
+    ansible.builtin.service:
+      name: nginx
+      state: enabled
+      
+  
