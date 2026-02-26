@@ -1,7 +1,7 @@
 - name: frontend configuration
   hosts: frontend
   connection: local
-#  become: yes
+  become: yes
   vars:
 
   tasks:
