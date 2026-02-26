@@ -1,14 +1,20 @@
 - name: backend configuration
   hosts: backend
-  connection: local
   become: yes
   vars:
     mysql_root_password: ExpenseApp@1
     login_host: mysql.inspiredevops.online
   tasks:
-  - name: install PyMySQL
+  # - name: install PyMySQL
+  #   ansible.builtin.pip:
+  #     name: PyMySQL
+
+  - name: ansible to install pymysql
     ansible.builtin.pip:
-      name: PyMySQL
+      name:
+      - PyMySQL
+      - cryptography
+      executable: pip3.9
 
   - name: ansible to install boto3 and botocore
     ansible.builtin.pip:
@@ -25,14 +31,17 @@
 
   - name: install nodejs
     ansible.builtin.package:
-      name: nodejs
+      name: "{{ item }}"
       state: present
-
-  - name: useradd
+    loop:
+    - nodejs
+    - mysql
+  
+  - name: create expense user
     ansible.builtin.user:
       name: expense
 
-  - name: Create a app directory if it does not exist
+  - name: Create a app directory 
     ansible.builtin.file:
       path: /app
       state: directory
@@ -44,7 +53,7 @@
   
   - name: Extract the code
     ansible.builtin.unarchive:
-      src: /tmp/backend.zip
+      src: /tmp/backend.zip #by default ansible thinks this is in ansible server
       dest: /app
       remote_src: yes
 
@@ -58,11 +67,6 @@
       src: backend.service
       dest: /etc/systemd/system/backend.service
 
-  - name: Install mysql client
-    ansible.builtin.package:
-      name: mysql
-      state: present
-
   - name: import mysql data
     community.mysql.mysql_db:
       login_user: root
@@ -71,3 +75,9 @@
       target: /app/schema/backend.sql
       name: all
       state: import
+
+  - name: daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+      state: restarted
+      name: backend
