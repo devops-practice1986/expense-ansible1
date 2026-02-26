@@ -1,7 +1,7 @@
 - name: frontend configuration
   hosts: frontend
   connection: local
-  become: yes
+#  become: yes
   vars:
 
   tasks:
@@ -10,11 +10,11 @@
       name: nginx
       state: present
   
-  - name: start nginx server
-    ansible.builtin.service:
-      name: nginx
-      state: started
-      enabled: yes
+  # - name: start nginx server
+  #   ansible.builtin.service:
+  #     name: nginx
+  #     state: started
+  #     enabled: yes
   
   - name: remove nginx default content 
     ansible.builtin.command: rm -rf /usr/share/nginx/html/*
@@ -38,3 +38,4 @@
     ansible.builtin.service:
       name: nginx
       state: restarted
+      enabled: yes
